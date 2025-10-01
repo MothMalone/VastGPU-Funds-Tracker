@@ -2,15 +2,11 @@
 
 A command-line calculator for tracking and estimating GPU instance costs on cloud platforms.
 
-
 ## Requirements
-- C++ compiler supporting C++11 or newer (g++, clang, MSVC, etc.)
+- C++ compiler supporting C++17 or newer (g++, clang, MSVC, etc.)
 - CMake 3.10 or newer (for CMake build only)
 
-
 ## Project Setup
-
-
 
 ### Building with CMake
 
@@ -27,13 +23,27 @@ make
 
 3. Run the program:
 ```bash
-./bin/vastgpu_tracker
+./vastgpu_tracker
 ```
 
-Direct Compilation
+### Running Tests
+
+After building the project with CMake, you can run the tests:
+
+```bash
+# Run all tests
+ctest
+
+# Run specific test
+./boundary_tests
+./decision_table_tests
+```
+
+### Direct Compilation
+
 You can also compile directly using g++:
 ```bash
-g++ -std=c++11 src/main.cpp src/gpu_model.cpp src/funds_calculator.cpp -I src -o vastgpu_tracker
+g++ -std=c++17 src/main.cpp src/gpu_model.cpp src/funds_calculator.cpp -I src -o vastgpu_tracker
 ```
 
 
