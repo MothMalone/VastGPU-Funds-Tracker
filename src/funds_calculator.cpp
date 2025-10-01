@@ -1,5 +1,6 @@
 #include "funds_calculator.h"
 #include <cmath>
+#include <iostream>
 
 int calculateRunningDays(int runningHours) {
     return (runningHours + 23) / 24;
@@ -23,7 +24,12 @@ double calculateRemainingFunds(double initialFunds, double totalCost) {
 double calculateRemainingFunds(double initialFunds, double hourlyRate, int instanceCount, 
                                 int runningHours, double dailyStorageCost) {
     double totalCost = calculateTotalCost(hourlyRate, instanceCount, runningHours, dailyStorageCost);
-
+    
+    if (initialFunds < totalCost) {
+        return initialFunds;
+        std::cout << "Insufficient funds to cover the total cost." << std::endl;
+    }
+    
     return initialFunds - totalCost;
 }
 
