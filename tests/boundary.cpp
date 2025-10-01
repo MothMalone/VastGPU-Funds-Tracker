@@ -37,3 +37,36 @@ TEST(CalculateTotalCostTest, BoundaryValueTests) {
 }
 
 
+// 3.2. calculateFundsDuration 
+TEST(CalculateFundsDurationTest, BoundaryValueTests) {
+    // TC1: nom values
+    EXPECT_NEAR(195.5, calculateFundsDuration(1000.0, 1.0, 5, 0.5), EPSILON);
+    
+    // // TC2-TC5: initialFunds boundaries
+    EXPECT_NEAR(0.0, calculateFundsDuration(0.0, 1.0, 5, 0.5), EPSILON); // TC2: min
+    EXPECT_NEAR(0.0, calculateFundsDuration(0.01, 1.0, 5, 0.5), EPSILON); // TC3: min+
+    EXPECT_NEAR(1958.998, calculateFundsDuration(9999.99, 1.0, 5, 0.5), EPSILON); // TC4: max-
+    EXPECT_NEAR(1959.0, calculateFundsDuration(10000.0, 1.0, 5, 0.5), EPSILON);  // TC5: max
+    
+    // // TC6-TC9: hourlyRate boundaries
+    EXPECT_NEAR(9600.0, calculateFundsDuration(1000.0, 0.0, 5, 0.5), EPSILON); // TC6: min
+    EXPECT_NEAR(6480.0, calculateFundsDuration(1000.0, 0.01, 5, 0.5), EPSILON); // TC7: min+
+    EXPECT_NEAR(19.969, calculateFundsDuration(1000.0, 9.99, 5, 0.5), EPSILON); // TC8: max-
+    EXPECT_NEAR(19.95, calculateFundsDuration(1000.0, 10.0, 5, 0.5), EPSILON);  // TC9: max
+    
+    
+    // // TC10-TC13: instanceCount boundaries
+    EXPECT_NEAR(979.5, calculateFundsDuration(1000.0, 1.0, 1, 0.5), EPSILON); // TC6: min
+    EXPECT_NEAR(489.5, calculateFundsDuration(1000.0, 1.0, 2, 0.5), EPSILON); // TC7: min+
+    EXPECT_NEAR(9.601, calculateFundsDuration(1000.0, 1.0, 99, 0.5), EPSILON); // TC8: max-
+    EXPECT_NEAR(9.5, calculateFundsDuration(1000.0, 1.0, 100, 0.5), EPSILON);  // TC9: max
+    
+    // // TC14-TC17: dailyStorageCost boundaries
+    EXPECT_NEAR(200.0, calculateFundsDuration(1000.0, 1.0, 5, 0.0), EPSILON); // TC6: min
+    EXPECT_NEAR(199.91, calculateFundsDuration(1000.0, 1.0, 5, 0.01), EPSILON); // TC7: min+
+    EXPECT_NEAR(165.07, calculateFundsDuration(1000.0, 1.0, 5, 4.99), EPSILON); // TC8: max-
+    EXPECT_NEAR(165, calculateFundsDuration(1000.0, 1.0, 5, 5.0), EPSILON);  // TC9: max
+    
+}
+
+
