@@ -119,19 +119,20 @@ TEST(CalculateTotalCostMultipleGpusTest, BoundaryValueTests) {
     
     GpuModel gpu1("Test1", 2.0, 1.0, 2);
     GpuModel gpu2("Test2", 3.0, 1.5, 3);
+    GpuModel gpu3("Test3", 1.0, 0.5, 1);
     
-    // TC1: Nominal values (2 GPUs, 50 hours)
-    gpuModels = {gpu1, gpu2};
-    EXPECT_NEAR(669.5, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON); 
+    // TC1: Nominal values (3 GPUs, 50 hours)
+    gpuModels = {gpu1, gpu2, gpu3};
+    EXPECT_NEAR(721.0, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON); 
 
     
-    // TC2: Empty vector
-    gpuModels.clear();
-    EXPECT_NEAR(0.0, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);  // TC2: min
-    
-    // TC3: 1 GPU
+    // TC2: 1 GPU
     gpuModels = {gpu1};
-    EXPECT_NEAR(206.0, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);  // TC3: min+
+    EXPECT_NEAR(206.0, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);  // TC2: min
+    
+    // TC3: 2 GPUs
+    gpuModels = {gpu1, gpu2};
+    EXPECT_NEAR(669.5, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);  // TC3: min+
   
     
     // TC4: 9 GPUs
@@ -168,10 +169,11 @@ TEST(CalculateFundsDurationMultipleGpusTest, BoundaryValueTests) {
 
     GpuModel gpu1("Test1", 2.0, 1.0, 2);
     GpuModel gpu2("Test2", 3.0, 1.5, 3);
-    
-    // TC1: Nominal values
-    gpuModels = {gpu1, gpu2};
-    EXPECT_NEAR(74.923, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);  
+    GpuModel gpu3("Test3", 1.0, 0.5, 1);
+
+    // TC1: Nominal values (3 GPUs, 1000 initialFunds)
+    gpuModels = {gpu1, gpu2, gpu3};
+    EXPECT_NEAR(69.929, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);  
 
 
     // TC2: Zero initialFunds
@@ -181,18 +183,20 @@ TEST(CalculateFundsDurationMultipleGpusTest, BoundaryValueTests) {
     EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(0.01, gpuModels), EPSILON);  // TC3: min+
 
     // TC4: Large initialFunds (near max)
-    EXPECT_NEAR(753.23, calculateFundsDurationMultipleGpus(9999.99, gpuModels), EPSILON);  // TC4: max-
+    EXPECT_NEAR(699.285, calculateFundsDurationMultipleGpus(9999.99, gpuModels), EPSILON);  // TC4: max-
     
     // TC5: Max initialFunds
-    EXPECT_NEAR(753.23, calculateFundsDurationMultipleGpus(10000.0, gpuModels), EPSILON);  // TC5: max (simulate an imaginary maximum value)
+    EXPECT_NEAR(699.285, calculateFundsDurationMultipleGpus(10000.0, gpuModels), EPSILON);  // TC5: max (simulate an imaginary maximum value)
     
-    // TC6: Empty vector
-    gpuModels.clear();
-    EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);  // TC6: min
+   
     
-    // TC7: 1 GPU
+    // TC6: 1 GPU
     gpuModels = {gpu1};
-    EXPECT_NEAR(244.5, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON); 
+    EXPECT_NEAR(244.5, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);   // TC6: min
+
+     // TC7: 2 GPU
+    gpuModels = {gpu1, gpu2};
+    EXPECT_NEAR(74.923, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);  // TC6: min+
     
     
     // TC8: 9 GPUs

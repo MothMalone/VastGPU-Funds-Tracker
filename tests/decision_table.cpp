@@ -167,3 +167,70 @@ TEST(CalculateRemainingFundsTest, DecisionTableTests) {
     // TC18: Insufficient funds <- initialFunds < totalCost, any other values
     EXPECT_NEAR(10.0, calculateRemainingFunds(10.0, 1.0, 5, 50, 0.5), EPSILON);
 }
+
+
+// 4.4. calculateTotalCostMultipleGpus Decision Table Tests 
+TEST(CalculateTotalCostMultipleGpusTest, DecisionTableTests) {
+    std::vector<GpuModel> gpuModels;
+    GpuModel gpu1("Test1", 2.0, 1.0, 2);
+    GpuModel gpu2("Test2", 3.0, 1.5, 3);
+    GpuModel invalidGpu("Invalid", -1.0, -1.0, -1);
+    
+    // TC1: Normal calculation <- gpuModels not empty, runningHours > 0, GPU valid 
+    gpuModels = {gpu1, gpu2};
+    EXPECT_NEAR(669.5, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);
+
+    // TC2: Invalid input <- gpuModels not empty, runningHours > 0, GPU  with invalid values  (not handled in function on unit level)
+    // GpuModel invalidGpu("Invalid", -1.0, -1.0, -1);
+    // gpuModels = {invalidGpu};
+    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 50);   
+   
+    
+    // TC3: Result = 0 <- gpuModels not empty, runningHours = 0, GPU valid
+    gpuModels = {gpu1, gpu2};
+    EXPECT_NEAR(0.0, calculateTotalCostMultipleGpus(gpuModels, 0), EPSILON);
+    
+    
+    // TC4: Invalid input <- gpuModels not empty, runningHours = 0, GPU invalid (not handled in function on unit level)
+    // gpuModels = {invalidGpu};
+    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 0);
+    
+    // TC5: Invalid input <- gpuModels not empty, runningHours < 0 (not handled in function on unit level)
+    // gpuModels = {gpu1}; 
+    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, -1);
+    
+    // TC6: Invalid input <- gpuModels empty  (not handled in function on unit level)
+    // gpuModels.clear();
+    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 50);
+}
+
+
+
+// 4.5. calculateFundsDurationMultipleGpus Decision Table Tests (5 test cases)
+
+TEST(CalculateFundsDurationMultipleGpusTest, DecisionTableTests) {
+    std::vector<GpuModel> gpuModels;
+    GpuModel gpu1("Test1", 2.0, 1.0, 2);
+    GpuModel gpu2("Test2", 3.0, 1.5, 3);
+    
+    // TC1: Normal calculation <- initialFunds > 0, gpuModels not empty, totalCost > 0
+    gpuModels = {gpu1, gpu2};
+    EXPECT_NEAR(74.923, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);
+    
+    // TC2: Funds last forever <- initialFunds > 0, gpuModels not empty, totalCost = 0
+    GpuModel zeroGpu("Zero", 0.0, 0.0, 2);
+    gpuModels = {zeroGpu};
+    EXPECT_NEAR(-1.0, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);
+    
+    // TC3: Invalid input <- initialFunds > 0, gpuModels not empty, totalCost = 0   (not handled in function on unit level)
+    // gpuModels = {zeroGpu};
+    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+      
+    // TC4: Invalid input <- initialFunds > 0, gpuModels empty  (not handled in function on unit level)
+    // gpuModels.clear();
+    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+    
+    // TC5: Invalid input <- initialFunds <= 0   (not handled in function on unit level)
+    // gpuModels = {gpu1, gpu2};
+    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(0.0, gpuModels);
+}
