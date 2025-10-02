@@ -7,6 +7,20 @@ int calculateRunningDays(int runningHours) {
 }
 
 double calculateTotalCost(double hourlyRate, int instanceCount, int runningHours, double dailyStorageCost) {
+    // Input validation
+    if (runningHours < 0) {
+        throw std::invalid_argument("Running hours can't be negative");
+    }
+    if (dailyStorageCost < 0) {
+        throw std::invalid_argument("Daily storage cost can't be negative");
+    }
+    if (instanceCount <= 0) {
+        throw std::invalid_argument("Instance count must be positive");
+    }
+    if (hourlyRate < 0) {
+        throw std::invalid_argument("Hourly rate can't be negative");
+    }
+
     double runtimeCost = hourlyRate * (double)(instanceCount) * (double)(runningHours);
     
     int days = calculateRunningDays(runningHours);
@@ -23,18 +37,47 @@ double calculateRemainingFunds(double initialFunds, double totalCost) {
 
 double calculateRemainingFunds(double initialFunds, double hourlyRate, int instanceCount, 
                                 int runningHours, double dailyStorageCost) {
+    // Input validation
+    if (runningHours < 0) {
+        throw std::invalid_argument("Running hours can't be negative");
+    }
+    if (dailyStorageCost < 0) {
+        throw std::invalid_argument("Daily storage cost can't be negative");
+    }
+    if (instanceCount <= 0) {
+        throw std::invalid_argument("Instance count must be positive");
+    }
+    if (hourlyRate < 0) {
+        throw std::invalid_argument("Hourly rate can't be negative");
+    }
+
     double totalCost = calculateTotalCost(hourlyRate, instanceCount, runningHours, dailyStorageCost);
     
     if (initialFunds < totalCost) {
         return initialFunds;
-        std::cout << "Insufficient funds to cover the total cost." << std::endl;
+        // std::cout << "Insufficient funds to cover the total cost." << std::endl;
     }
     
     return initialFunds - totalCost;
 }
 
 double calculateFundsDuration(double initialFunds, double hourlyRate, int instanceCount, double dailyStorageCost) {
-    if (initialFunds <= 0 || instanceCount <= 0) {
+    // Input validation 
+    if (initialFunds < 0) {
+        throw std::invalid_argument("Initial funds can't be negative");
+    }
+    if (instanceCount <= 0) {
+        throw std::invalid_argument("Instance count must be positive");
+    }
+    if (hourlyRate < 0) {
+        throw std::invalid_argument("Hourly rate can't be negative");
+    }
+    if (dailyStorageCost < 0) {
+        throw std::invalid_argument("Daily storage cost can't be negative");
+    }
+    
+
+    if (initialFunds == 0) {
         return 0.0;
     }
     
@@ -74,6 +117,26 @@ double calculateFundsDuration(double initialFunds, double hourlyRate, int instan
 }
 
 double calculateTotalCostMultipleGpus(const std::vector<GpuModel>& gpuModels, int runningHours) {
+    // Input validation
+    if (gpuModels.empty()) {
+        throw std::invalid_argument("GPU models list can't be empty");
+    }
+    if (runningHours < 0) {
+        throw std::invalid_argument("Running hours can't be negative");
+    }
+
+    for (const auto& gpu : gpuModels) {
+        if (gpu.getHourlyRate() < 0) {
+            throw std::invalid_argument("GPU hourly rate can't be negative");
+        }
+        if (gpu.getDailyStorageCost() < 0) {
+            throw std::invalid_argument("GPU daily storage cost can't be negative");
+        }
+        if (gpu.getNumInstances() <= 0) {
+            throw std::invalid_argument("GPU instance count must be positive");
+        }
+    }
+    
     double totalCost = 0.0;
     for (const auto& gpu : gpuModels) {
         totalCost += calculateTotalCost(gpu.getHourlyRate(), gpu.getNumInstances(), 
@@ -84,7 +147,29 @@ double calculateTotalCostMultipleGpus(const std::vector<GpuModel>& gpuModels, in
 
 
 double calculateFundsDurationMultipleGpus(double initialFunds, const std::vector<GpuModel>& gpuModels) {
-    if (initialFunds <= 0 || gpuModels.empty()) {
+    // Input validation for negative values
+    if (initialFunds < 0) {
+        throw std::invalid_argument("Initial funds can't be negative");
+    }
+    if (gpuModels.empty()) {
+        throw std::invalid_argument("GPU models list can't be empty");
+    }
+    
+    // Validate each GPU model
+    for (const auto& gpu : gpuModels) {
+        if (gpu.getHourlyRate() < 0) {
+            throw std::invalid_argument("GPU hourly rate can't be negative");
+        }
+        if (gpu.getDailyStorageCost() < 0) {
+            throw std::invalid_argument("GPU daily storage cost can't be negative");
+        }
+        if (gpu.getNumInstances() <= 0) {
+            throw std::invalid_argument("GPU instance count must be positive");
+        }
+    }
+    
+    // Special case for zero initial funds
+    if (initialFunds == 0) {
         return 0.0;
     }
 

@@ -9,11 +9,15 @@ const double EPSILON = 0.001;
 // 4.1. calculateTotalCost Decision Table Tests
 TEST(CalculateTotalCostTest, DecisionTableTests) {
 
-    // TC1: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(1.0, 5, -50, 0.5);
+    // TC1: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours < 0, any dailyStorageCost
+    EXPECT_THROW({
+        calculateTotalCost(1.0, 5, -50, 0.5);
+    }, std::invalid_argument);
 
-    // TC2: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(1.0, 5, 0, -0.5);
+    // TC2: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0
+     EXPECT_THROW({
+        calculateTotalCost(1.0, 5, 0, -0.5);
+    }, std::invalid_argument);
 
     // TC3: Result = 0 <- hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost = 0
     EXPECT_NEAR(0.0, calculateTotalCost(1.0, 5, 0, 0.0), EPSILON);
@@ -29,17 +33,25 @@ TEST(CalculateTotalCostTest, DecisionTableTests) {
     EXPECT_NEAR(250.0, calculateTotalCost(1.0, 5, 50, 0.0), EPSILON);
 
 
-    // TC7: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(1.0, 5, 50, -0.5);
+    // TC7: Invalid input <- hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0
+     EXPECT_THROW({
+        calculateTotalCost(1.0, 5, 50, -0.5);
+    }, std::invalid_argument);
     
-    // TC8: Invalid input <- hourlyRate > 0, instanceCount <= 0, any runningHours , any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(1.0, 0, 50, 0.5);
+    // TC8: Invalid input <- hourlyRate > 0, instanceCount <= 0, any runningHours , any dailyStorageCost
+     EXPECT_THROW({
+        calculateTotalCost(1.0, 0, 50, 0.5);
+    }, std::invalid_argument);
     
-    // TC9: Invalid input <- hourlyRate < 0, any instanceCount, any runningHours, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(-1.0, 0, 50, 0.5);
+    // TC9: Invalid input <- hourlyRate < 0, any instanceCount, any runningHours, any dailyStorageCost
+    EXPECT_THROW({
+        calculateTotalCost(-1.0, 5, 50, 0.5);
+    }, std::invalid_argument);
     
-    // TC10: Invalid input <- hourlyRate = 0, instanceCount <= 0, any runningHours, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(0.0, -5, 50, 0.5);
+    // TC10: Invalid input <- hourlyRate = 0, instanceCount <= 0, any runningHours, any dailyStorageCost
+    EXPECT_THROW({
+        calculateTotalCost(0.0, -5, 50, 0.5);
+    }, std::invalid_argument);
 
 
     // TC11: Only Storage <- hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost > 0
@@ -49,8 +61,10 @@ TEST(CalculateTotalCostTest, DecisionTableTests) {
     EXPECT_NEAR(0.0, calculateTotalCost(0.0, 5, 50, 0.0), EPSILON);
 
 
-    // TC13: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(0.0, 5, 50, -0.5);
+    // TC13: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateTotalCost(0.0, 5, 50, -0.5);
+    }, std::invalid_argument);
 
 
     // TC14: Result = 0 <- hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost > 0
@@ -60,11 +74,15 @@ TEST(CalculateTotalCostTest, DecisionTableTests) {
     EXPECT_NEAR(0.0, calculateTotalCost(0.0, 5, 0, 0.0), EPSILON);
 
 
-    // TC16: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(0.0, 5, 0, -0.5);
+    // TC16: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateTotalCost(0.0, 5, 0, -0.5);
+    }, std::invalid_argument);
 
-    // TC17: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateTotalCost(0.0, 5, -50, 0.5);
+    // TC17: Invalid input <- hourlyRate = 0, instanceCount > 0, runningHours < 0, any dailyStorageCost
+    EXPECT_THROW({
+        calculateTotalCost(0.0, 5, -50, 0.5);
+    }, std::invalid_argument);
 }
 
 
@@ -77,11 +95,15 @@ TEST(CalculateFundsDurationTest, DecisionTableTests) {
     EXPECT_NEAR(200.0, calculateFundsDuration(1000.0, 1.0, 5, 0.0), EPSILON);
 
     
-    // TC3: Invalid input <- initialFunds > 0, hourlyRate > 0, instanceCount > 0, dailyStorageCost < 0   (not handled in function on unit level)
-    //EXPECT("Invalid", calculateFundsDuration(1000.0, 1.0, 5, -0.5);   
+    // TC3: Invalid input <- initialFunds > 0, hourlyRate > 0, instanceCount > 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateFundsDuration(1000.0, 1.0, 5, -0.5);
+    }, std::invalid_argument);   
     
-    // TC4: Invalid input <- initialFunds > 0, hourlyRate < 0, any instanceCount, any dailyStorageCost  (not handled in function on unit level)
-    // EXPECT("Invalid", calculateFundsDuration(1000.0, 1.0, 5, 0.0));
+    // TC4: Invalid input <- initialFunds > 0, hourlyRate < 0, any instanceCount, any dailyStorageCost
+    EXPECT_THROW({
+        calculateFundsDuration(1000.0, -1.0, 5, 0.0);
+    }, std::invalid_argument);
     
     
     // TC5: Only storage cost <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost > 0
@@ -90,28 +112,40 @@ TEST(CalculateFundsDurationTest, DecisionTableTests) {
     // TC6: Funds last forever <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost = 0
     EXPECT_NEAR(-1.0, calculateFundsDuration(1000.0, 0.0, 5, 0.0), EPSILON);
 
-    // TC7: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost < 0  (not handled in function on unit level)
-    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 5, -0.5);
+    // TC7: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateFundsDuration(1000.0, 0.0, 5, -0.5);
+    }, std::invalid_argument);
 
-    // TC8: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount <= 0, any dailyStorageCost  (not handled in function on unit level)
-    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, -5, 0.0);
+    // TC8: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount <= 0, any dailyStorageCost
+    EXPECT_THROW({
+        calculateFundsDuration(1000.0, 0.0, -5, 0.0);
+    }, std::invalid_argument);
 
-    // TC9: Invalid input <- initialFunds > 0, hourlyRate < 0, instanceCount <= 0  (not handled in function on unit level)
-    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 0, 0.5);
+    // TC9: Invalid input <- initialFunds > 0, hourlyRate < 0, instanceCount <= 0 (two errors)
+    EXPECT_THROW({
+        calculateFundsDuration(1000.0, -1.0, 0, 0.5);
+    }, std::invalid_argument);
     
-    // TC10: Invalid input <- initialFunds <= 0, any costs & instanceCount   (not handled in function on unit level)
-    // EEXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 0, 0.0);
+    // TC10: Invalid input <- initialFunds < 0, any costs & instanceCount
+    EXPECT_THROW({
+        calculateFundsDuration(-1000.0, 0.0, 5, 0.0);
+    }, std::invalid_argument);
     
 }
 
 
 // 4.3. calculateRemainingFunds Decision Table Tests 
 TEST(CalculateRemainingFundsTest, DecisionTableTests) {
-    // TC1: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0 ,1.0, 5, -50, 0.5);
+    // TC1: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours < 0, any dailyStorageCost
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 1.0, 5, -50, 0.5);
+    }, std::invalid_argument);
 
-    // TC2: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 1.0, 5, 0, -0.5);
+    // TC2: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 1.0, 5, 0, -0.5);
+    }, std::invalid_argument);
 
     // TC3: Result = 0 <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost = 0
     EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 0, 0.0), EPSILON);
@@ -127,17 +161,25 @@ TEST(CalculateRemainingFundsTest, DecisionTableTests) {
     EXPECT_NEAR(750.0, calculateRemainingFunds(1000.0, 1.0, 5, 50, 0.0), EPSILON);
 
 
-    // TC7: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 1.0, 5, 50, -0.5);
+    // TC7: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 1.0, 5, 50, -0.5);
+    }, std::invalid_argument);
 
-    // TC8: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount <= 0, any runningHours , any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0,1.0, 0, 50, 0.5);
+    // TC8: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount <= 0, any runningHours , any dailyStorageCost
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 1.0, 0, 50, 0.5);
+    }, std::invalid_argument);
     
-    // TC9: Invalid input <- initialFunds >= totalCost, hourlyRate < 0, any instanceCount, any runningHours, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, -1.0, 0, 50, 0.5);
+    // TC9: Invalid input <- initialFunds >= totalCost, hourlyRate < 0, any instanceCount, any runningHours, any dailyStorageCost
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, -1.0, 5, 50, 0.5);
+    }, std::invalid_argument);
     
-    // TC10: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount <= 0, any runningHours, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, -5, 50, 0.5);
+    // TC10: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount <= 0, any runningHours, any dailyStorageCost
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 0.0, -5, 50, 0.5);
+    }, std::invalid_argument);
 
 
     // TC11: Only Storage <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost > 0
@@ -147,8 +189,10 @@ TEST(CalculateRemainingFundsTest, DecisionTableTests) {
     EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0,0.0, 5, 50, 0.0), EPSILON);
 
 
-    // TC13: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, 50, -0.5);
+    // TC13: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 0.0, 5, 50, -0.5);
+    }, std::invalid_argument);
 
 
     // TC14: Result = 0 <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost > 0
@@ -158,11 +202,15 @@ TEST(CalculateRemainingFundsTest, DecisionTableTests) {
     EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 0.0, 5, 0, 0.0), EPSILON);
 
 
-    // TC16: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, 0, -0.5);
+    // TC16: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 0.0, 5, 0, -0.5);
+    }, std::invalid_argument);
 
-    // TC17: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
-    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, -50, 0.5);
+    // TC17: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours < 0, any dailyStorageCost
+    EXPECT_THROW({
+        calculateRemainingFunds(1000.0, 0.0, 5, -50, 0.5);
+    }, std::invalid_argument);
     
     // TC18: Insufficient funds <- initialFunds < totalCost, any other values
     EXPECT_NEAR(10.0, calculateRemainingFunds(10.0, 1.0, 5, 50, 0.5), EPSILON);
@@ -180,10 +228,11 @@ TEST(CalculateTotalCostMultipleGpusTest, DecisionTableTests) {
     gpuModels = {gpu1, gpu2};
     EXPECT_NEAR(669.5, calculateTotalCostMultipleGpus(gpuModels, 50), EPSILON);
 
-    // TC2: Invalid input <- gpuModels not empty, runningHours > 0, GPU  with invalid values  (not handled in function on unit level)
-    // GpuModel invalidGpu("Invalid", -1.0, -1.0, -1);
-    // gpuModels = {invalidGpu};
-    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 50);   
+    // TC2: Invalid input <- gpuModels not empty, runningHours > 0, GPU with invalid values
+    gpuModels = {invalidGpu};
+    EXPECT_THROW({
+        calculateTotalCostMultipleGpus(gpuModels, 50);
+    }, std::invalid_argument);   
    
     
     // TC3: Result = 0 <- gpuModels not empty, runningHours = 0, GPU valid
@@ -191,17 +240,23 @@ TEST(CalculateTotalCostMultipleGpusTest, DecisionTableTests) {
     EXPECT_NEAR(0.0, calculateTotalCostMultipleGpus(gpuModels, 0), EPSILON);
     
     
-    // TC4: Invalid input <- gpuModels not empty, runningHours = 0, GPU invalid (not handled in function on unit level)
-    // gpuModels = {invalidGpu};
-    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 0);
+    // TC4: Invalid input <- gpuModels not empty, runningHours = 0, GPU invalid
+    gpuModels = {invalidGpu};
+    EXPECT_THROW({
+        calculateTotalCostMultipleGpus(gpuModels, 0);
+    }, std::invalid_argument);
     
-    // TC5: Invalid input <- gpuModels not empty, runningHours < 0 (not handled in function on unit level)
-    // gpuModels = {gpu1}; 
-    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, -1);
+    // TC5: Invalid input <- gpuModels not empty, runningHours < 0
+    gpuModels = {gpu1}; 
+    EXPECT_THROW({
+        calculateTotalCostMultipleGpus(gpuModels, -1);
+    }, std::invalid_argument);
     
-    // TC6: Invalid input <- gpuModels empty  (not handled in function on unit level)
-    // gpuModels.clear();
-    // EXPECT("Invalid", calculateTotalCostMultipleGpus(gpuModels, 50);
+    // TC6: Invalid input <- gpuModels empty
+    gpuModels.clear();
+    EXPECT_THROW({
+        calculateTotalCostMultipleGpus(gpuModels, 50);
+    }, std::invalid_argument);
 }
 
 
@@ -222,15 +277,22 @@ TEST(CalculateFundsDurationMultipleGpusTest, DecisionTableTests) {
     gpuModels = {zeroGpu};
     EXPECT_NEAR(-1.0, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);
     
-    // TC3: Invalid input <- initialFunds > 0, gpuModels not empty, totalCost = 0   (not handled in function on unit level)
-    // gpuModels = {zeroGpu};
-    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+    // TC3: Invalid input <- initialFunds > 0, gpuModels not empty with negative values
+    GpuModel negGpu("Neg", -1.0, -1.0, 1);
+    gpuModels = {negGpu};
+    EXPECT_THROW({
+        calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+    }, std::invalid_argument);
       
-    // TC4: Invalid input <- initialFunds > 0, gpuModels empty  (not handled in function on unit level)
-    // gpuModels.clear();
-    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+    // TC4: Invalid input <- initialFunds > 0, gpuModels empty
+    gpuModels.clear();
+    EXPECT_THROW({
+        calculateFundsDurationMultipleGpus(1000.0, gpuModels);
+    }, std::invalid_argument);
     
-    // TC5: Invalid input <- initialFunds <= 0   (not handled in function on unit level)
-    // gpuModels = {gpu1, gpu2};
-    // EXPECT("Invalid", calculateFundsDurationMultipleGpus(0.0, gpuModels);
+    // TC5: Invalid input <- initialFunds < 0
+    gpuModels = {gpu1, gpu2};
+    EXPECT_THROW({
+        calculateFundsDurationMultipleGpus(-1.0, gpuModels);
+    }, std::invalid_argument);
 }

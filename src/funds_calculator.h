@@ -2,6 +2,7 @@
 
 #include "gpu_model.h"
 #include <vector>
+#include <stdexcept>
 
 // Calculate total cost for a single GPU config
 double calculateTotalCost(double hourlyRate, int numInstances, int runningTimeHours, double dailyStorageCost);
