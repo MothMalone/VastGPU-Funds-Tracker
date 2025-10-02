@@ -24,8 +24,8 @@ TEST(CalculateTotalCostTest, BoundaryValueTests) {
     EXPECT_NEAR(5150.0, calculateTotalCost(1.0, 100, 50, 0.5), EPSILON);  // TC9: max (simulate an imaginary maximum value)
     
     // TC10-TC13: runningHours boundaries
-    EXPECT_NEAR(7.5, calculateTotalCost(1.0, 5, 1, 0.5), EPSILON);  // TC10: min
-    EXPECT_NEAR(12.5, calculateTotalCost(1.0, 5, 2, 0.5), EPSILON);  // TC11: min+
+    EXPECT_NEAR(0.0, calculateTotalCost(1.0, 5, 0, 0.5), EPSILON);  // TC10: min
+    EXPECT_NEAR(7.5, calculateTotalCost(1.0, 5, 1, 0.5), EPSILON);  // TC11: min+
     EXPECT_NEAR(5100.0, calculateTotalCost(1.0, 5, 999, 0.5), EPSILON);  // TC12: max-
     EXPECT_NEAR(5105.0, calculateTotalCost(1.0, 5, 1000, 0.5), EPSILON);  // TC13: max (simulate an imaginary maximum value)
     
@@ -43,8 +43,8 @@ TEST(CalculateFundsDurationTest, BoundaryValueTests) {
     EXPECT_NEAR(195.5, calculateFundsDuration(1000.0, 1.0, 5, 0.5), EPSILON);
     
     // // TC2-TC5: initialFunds boundaries
-    EXPECT_NEAR(0.0, calculateFundsDuration(0.0, 1.0, 5, 0.5), EPSILON); // TC2: min
-    EXPECT_NEAR(0.0, calculateFundsDuration(0.01, 1.0, 5, 0.5), EPSILON); // TC3: min+
+    EXPECT_NEAR(0.0, calculateFundsDuration(0.01, 1.0, 5, 0.5), EPSILON); // TC2: min
+    EXPECT_NEAR(0.0, calculateFundsDuration(0.02, 1.0, 5, 0.5), EPSILON); // TC3: min+
     EXPECT_NEAR(1958.998, calculateFundsDuration(9999.99, 1.0, 5, 0.5), EPSILON); // TC4: max-
     EXPECT_NEAR(1959.0, calculateFundsDuration(10000.0, 1.0, 5, 0.5), EPSILON);  // TC5: max (simulate an imaginary maximum value)
     
@@ -77,8 +77,8 @@ TEST(CalculateRemainingFundsTest, BoundaryValueTests) {
 
     
     // TC2-TC5: initialFunds boundaries
-    EXPECT_NEAR(0.0, calculateRemainingFunds(0.0, 1.0, 5, 50, 0.5), EPSILON); // TC2: min
-    EXPECT_NEAR(0.01, calculateRemainingFunds(0.01, 1.0, 5, 50, 0.5), EPSILON); // TC3: min+
+    EXPECT_NEAR(0.01, calculateRemainingFunds(0.01, 1.0, 5, 50, 0.5), EPSILON); // TC2: min
+    EXPECT_NEAR(0.02, calculateRemainingFunds(0.02, 1.0, 5, 50, 0.5), EPSILON); // TC3: min+
     EXPECT_NEAR(9742.49, calculateRemainingFunds(9999.99, 1.0, 5, 50, 0.5), EPSILON); // TC4: max-
     EXPECT_NEAR(9742.5, calculateRemainingFunds(10000.0, 1.0, 5, 50, 0.5), EPSILON);  // TC5: max (simulate an imaginary maximum value)
 
@@ -98,8 +98,8 @@ TEST(CalculateRemainingFundsTest, BoundaryValueTests) {
 
     
     // // TC14-TC17: runningHours boundaries
-    EXPECT_NEAR(992.5, calculateRemainingFunds(1000.0, 1.0, 5, 1, 0.5), EPSILON); // TC14: min
-    EXPECT_NEAR(987.5, calculateRemainingFunds(1000.0, 1.0, 5, 2, 0.5), EPSILON); // TC15: min+
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 0, 0.5), EPSILON); // TC14: min
+    EXPECT_NEAR(992.5, calculateRemainingFunds(1000.0, 1.0, 5, 1, 0.5), EPSILON); // TC15: min+
     EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 999, 0.5), EPSILON); // TC16: max-
     EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 1000, 0.5), EPSILON);  // TC17: max (simulate an imaginary maximum value)
 
@@ -177,10 +177,10 @@ TEST(CalculateFundsDurationMultipleGpusTest, BoundaryValueTests) {
 
 
     // TC2: Zero initialFunds
-    EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(0.0, gpuModels), EPSILON);  // TC2: min
+    EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(0.01, gpuModels), EPSILON);  // TC2: min
     
     // TC3: Small initialFunds
-    EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(0.01, gpuModels), EPSILON);  // TC3: min+
+    EXPECT_NEAR(0.0, calculateFundsDurationMultipleGpus(0.02, gpuModels), EPSILON);  // TC3: min+
 
     // TC4: Large initialFunds (near max)
     EXPECT_NEAR(699.285, calculateFundsDurationMultipleGpus(9999.99, gpuModels), EPSILON);  // TC4: max-
