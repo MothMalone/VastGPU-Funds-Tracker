@@ -103,3 +103,67 @@ TEST(CalculateFundsDurationTest, DecisionTableTests) {
     // EEXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 0, 0.0);
     
 }
+
+
+// 4.3. calculateRemainingFunds Decision Table Tests 
+TEST(CalculateRemainingFundsTest, DecisionTableTests) {
+    // TC1: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0 ,1.0, 5, -50, 0.5);
+
+    // TC2: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 1.0, 5, 0, -0.5);
+
+    // TC3: Result = 0 <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost = 0
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 0, 0.0), EPSILON);
+
+    // TC4: Result = 0 <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours = 0, dailyStorageCost > 0
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 1.0, 5, 0, 0.5), EPSILON);
+
+    // TC5: Normal with running hours <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost > 0
+    EXPECT_NEAR(742.5, calculateRemainingFunds(1000.0, 1.0, 5, 50, 0.5), EPSILON);
+
+
+    // TC6: Only runtime <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost = 0
+    EXPECT_NEAR(750.0, calculateRemainingFunds(1000.0, 1.0, 5, 50, 0.0), EPSILON);
+
+
+    // TC7: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 1.0, 5, 50, -0.5);
+
+    // TC8: Invalid input <- initialFunds >= totalCost, hourlyRate > 0, instanceCount <= 0, any runningHours , any dailyStorageCost (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0,1.0, 0, 50, 0.5);
+    
+    // TC9: Invalid input <- initialFunds >= totalCost, hourlyRate < 0, any instanceCount, any runningHours, any dailyStorageCost (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, -1.0, 0, 50, 0.5);
+    
+    // TC10: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount <= 0, any runningHours, any dailyStorageCost (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, -5, 50, 0.5);
+
+
+    // TC11: Only Storage <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost > 0
+    EXPECT_NEAR(992.5, calculateRemainingFunds(1000.0, 0.0, 5, 50, 0.5), EPSILON);
+    
+    // TC12: Result = 0 <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost = 0
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0,0.0, 5, 50, 0.0), EPSILON);
+
+
+    // TC13: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours > 0, dailyStorageCost < 0 (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, 50, -0.5);
+
+
+    // TC14: Result = 0 <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost > 0
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 0.0, 5, 0, 0.5), EPSILON);
+    
+    // TC15: Result = 0 <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost = 0
+    EXPECT_NEAR(1000.0, calculateRemainingFunds(1000.0, 0.0, 5, 0, 0.0), EPSILON);
+
+
+    // TC16: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours = 0, dailyStorageCost < 0 (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, 0, -0.5);
+
+    // TC17: Invalid input <- initialFunds >= totalCost, hourlyRate = 0, instanceCount > 0, runningHours < 0, any dailyStorageCost (not handled in function on unit level)
+    // EXPECT("Invalid", calculateRemainingFunds(1000.0, 0.0, 5, -50, 0.5);
+    
+    // TC18: Insufficient funds <- initialFunds < totalCost, any other values
+    EXPECT_NEAR(10.0, calculateRemainingFunds(10.0, 1.0, 5, 50, 0.5), EPSILON);
+}
