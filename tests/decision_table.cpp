@@ -68,4 +68,38 @@ TEST(CalculateTotalCostTest, DecisionTableTests) {
 }
 
 
+// 4.2. calculateFundsDuration Decision Table Tests 
+TEST(CalculateFundsDurationTest, DecisionTableTests) {
+    // TC1: Normal calculation <- initialFunds > 0, hourlyRate > 0, instanceCount > 0, dailyStorageCost > 0 
+    EXPECT_NEAR(195.5, calculateFundsDuration(1000.0, 1.0, 5, 0.5), EPSILON);
 
+    // TC2: Only runtime cost <- initialFunds > 0, hourlyRate > 0, instanceCount > 0, dailyStorageCost = 0
+    EXPECT_NEAR(200.0, calculateFundsDuration(1000.0, 1.0, 5, 0.0), EPSILON);
+
+    
+    // TC3: Invalid input <- initialFunds > 0, hourlyRate > 0, instanceCount > 0, dailyStorageCost < 0   (not handled in function on unit level)
+    //EXPECT("Invalid", calculateFundsDuration(1000.0, 1.0, 5, -0.5);   
+    
+    // TC4: Invalid input <- initialFunds > 0, hourlyRate < 0, any instanceCount, any dailyStorageCost  (not handled in function on unit level)
+    // EXPECT("Invalid", calculateFundsDuration(1000.0, 1.0, 5, 0.0));
+    
+    
+    // TC5: Only storage cost <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost > 0
+    EXPECT_NEAR(9600.0, calculateFundsDuration(1000.0, 0.0, 5, 0.5), EPSILON);
+    
+    // TC6: Funds last forever <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost = 0
+    EXPECT_NEAR(-1.0, calculateFundsDuration(1000.0, 0.0, 5, 0.0), EPSILON);
+
+    // TC7: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount > 0, dailyStorageCost < 0  (not handled in function on unit level)
+    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 5, -0.5);
+
+    // TC8: Invalid input <- initialFunds > 0, hourlyRate = 0, instanceCount <= 0, any dailyStorageCost  (not handled in function on unit level)
+    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, -5, 0.0);
+
+    // TC9: Invalid input <- initialFunds > 0, hourlyRate < 0, instanceCount <= 0  (not handled in function on unit level)
+    // EXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 0, 0.5);
+    
+    // TC10: Invalid input <- initialFunds <= 0, any costs & instanceCount   (not handled in function on unit level)
+    // EEXPECT("Invalid", calculateFundsDuration(1000.0, 0.0, 0, 0.0);
+    
+}
