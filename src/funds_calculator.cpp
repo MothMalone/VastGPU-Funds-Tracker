@@ -13,7 +13,7 @@ double calculateTotalCost(double hourlyRate, int instanceCount, int runningHours
     }
     if (dailyStorageCost < 0) {
         throw std::invalid_argument("Daily storage cost can't be negative");
-    }
+    } 
     if (instanceCount <= 0) {
         throw std::invalid_argument("Instance count must be positive");
     }
@@ -183,9 +183,9 @@ double calculateFundsDurationMultipleGpus(double initialFunds, const std::vector
         totalInstances += gpu.getNumInstances();
     }
 
-    if (totalInstances == 0) {
-        return 0.0;
-    }
+    // if (totalInstances == 0) {
+    //     return 0.0;
+    // }
 
     if (totalHourlyRate <= 0 && totalDailyStorageCost <= 0) {
         return -1;

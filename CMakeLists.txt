@@ -28,12 +28,16 @@ target_link_libraries(boundary_tests vastgpu_core gtest_main)
 add_executable(decision_table_tests tests/decision_table.cpp)
 target_link_libraries(decision_table_tests vastgpu_core gtest_main)
 
+add_executable(flow_control_tests tests/flow_control_tests.cpp)
+target_link_libraries(flow_control_tests vastgpu_core gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(boundary_tests)
 gtest_discover_tests(decision_table_tests)
+gtest_discover_tests(flow_control_tests)
 
 add_custom_target(run_all_tests 
     COMMAND ${CMAKE_CTEST_COMMAND} --verbose
-    DEPENDS boundary_tests decision_table_tests)
+    DEPENDS boundary_tests decision_table_tests flow_control_tests)
 
 

@@ -11,7 +11,7 @@ int main() {
     double initialFunds;
     std::cout << "Enter initial funds: $";
     std::cin >> initialFunds;
-    while (initialFunds < 0.01 || std::cin.fail()) {
+    while (!(initialFunds > 0.0) || std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
         std::cout << "Invalid input. Please enter a positive value: $";
@@ -115,15 +115,17 @@ int main() {
     std::cout << "Total instances: " << totalInstances << std::endl;
     std::cout << "Total cost for " << runningTimeHours << " hours: $" << totalCost << std::endl;
     std::cout << "Initial funds: $" << initialFunds << std::endl;
-    std::cout << "Remaining funds: $" << remainingFunds << std::endl;
+    
     
     if (fundsDuration > 0) {
         std::cout << "Funds will last approximately " << fundsDuration << " hours with all GPU models" << std::endl;
         int days = (int)(fundsDuration) / 24;
         int hours = (int)(fundsDuration) % 24;
         std::cout << "(" << days << " days and " << hours << " hours)" << std::endl;
+        std::cout << "Remaining funds: $" << remainingFunds << std::endl;
     } else if (fundsDuration == -1) {
         std::cout << "Funds will last indefinitely (no ongoing costs)" << std::endl;
+        std::cout << "Remaining funds: $" << remainingFunds << std::endl;
     } else {
         std::cout << "Funds insufficient for any duration" << std::endl;
     }

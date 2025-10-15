@@ -278,7 +278,7 @@ TEST(CalculateFundsDurationMultipleGpusTest, DecisionTableTests) {
     EXPECT_NEAR(-1.0, calculateFundsDurationMultipleGpus(1000.0, gpuModels), EPSILON);
     
     // TC3: Invalid input <- initialFunds > 0, gpuModels not empty with negative values
-    GpuModel negGpu("Neg", -1.0, -1.0, 1);
+    GpuModel negGpu("Invalid", -1.0, -1.0, -1);
     gpuModels = {negGpu};
     EXPECT_THROW({
         calculateFundsDurationMultipleGpus(1000.0, gpuModels);
